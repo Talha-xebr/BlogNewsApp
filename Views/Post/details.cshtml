@@ -1,0 +1,129 @@
+@model Post
+
+<div class="row">
+	<!-- Left Column: Latest Blogs/News -->
+	<div class="col-lg-8">
+		<!-- Post Details-->
+		<div class="p-4">
+			<h1 class="h4 mb-4">@Model.Title</h1>
+			<div class="tag">
+				<!-- Foreach Tags -->
+				@foreach (var tag in Model.Tags)
+				{
+					<a href="/post/tag/@tag.Url"
+					   style="text-decoration:none;"
+					   class="badge bg-dark bg-opacity-5 text-white mb-2 fw-bold">@tag.TagName</a>
+				}
+			</div>
+			<img src="~/img/@Model.Image" class="img-fluid rounded" />
+			<div>@Model.Content</div>
+		</div>
+
+		<!-- Comment Area -->
+
+		<div class="mt-3 bg-dark">
+			<div class="card border-0">
+
+				<div class="card-header pb-0 text-white" style="background-color: #555">
+					<h5><span id="commentCount">@Model.Comments.Count()</span> adet yorum var</h5>
+				</div>
+
+				<div style="background-color: #555" class="card-body text-white">
+					<!-- Foreach Comments-->
+					<div id="comment">
+						@foreach (var comment in Model.Comments)
+						{
+							<div class="my-4 d-flex">
+								<img src="~/img/@comment.user.Image" style="width:100px; height:100px;" class="avatar rounded-circle float-start me-3" />
+								<div>
+									<div class="mb-2">
+										<h6>@comment.user.UserName</h6>
+										<span>@comment.CommentDate</span>
+									</div>
+									<p>@comment.Text</p>
+								</div>
+							</div>
+						}
+					</div>
+
+					@if (User.Identity!.IsAuthenticated)
+					{
+						<hr />
+						<div>
+							<h4 class="mb-3">Yorum Yap</h4>
+							<form>
+
+								<input type="hidden" id="PostId" name="PostId" value="@Model.PostId">
+
+								<div class="mb-3">
+									<label for="Text" class="form-label">Comment</label>
+									<textarea name="Text" type="text" id="Text" class="form-control" rows="2"></textarea>
+								</div>
+								<div class="mb-3">
+									<button id="btnYorumKayit" type="submit" class="btn btn-primary">Kaydet</button>
+								</div>
+							</form>
+						</div>
+					}
+					else
+					{
+						<p>Yorum yapmak için giriþ yapýnýz.<a href="/user/login">Giris Yap</a></p>
+					}
+
+
+				</div>
+			</div>
+		</div>
+
+		<!-- End -->
+	</div>
+
+	<!-- Right Column -->
+	<div class="col-lg-4">
+		<!-- Upper Row: Popular Posts -->
+		<vc:popular-posts></vc:popular-posts>
+
+		<!-- Lower Row: Twitter Embed -->
+		<vc:twitter-embed></vc:twitter-embed>
+	</div>
+</div>
+
+@section Scripts {
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$("#btnYorumKayit").click(function () {
+				$.ajax({
+					type: 'POST',
+					url: '@Url.Action("AddComment")',
+					datatype: 'json',
+					data: {
+						PostId: $('#PostId').val(),
+						UserName: $('#UserName').val(),
+						Text: $('#Text').val(),
+					},
+					success: function (yorum) {
+						var date = new Date(yorum.CommentDate);
+						$("#comment").append(`
+											<div class="my-4 d-flex">
+												<img src="~/img/${yorum.avatar}" style="width:100px; height:100px;" class="avatar rounded-circle float-start me-3" />
+													<div>
+														<div class="mb-2">
+															<h6>${yorum.UserName}</h6>
+															<span>${date.toLocaleDateString()}</span>
+														</div>
+													<p>${yorum.Text}</p>
+												</div>
+											</div>
+										`);
+						$('#UserName').val('');
+						$('#Text').val('');
+						var adet = parseInt($('#commentCount').text());
+						$("#commentCount").text(adet + 1);
+					}
+				});
+				return false;
+			});
+		});
+	</script>
+}

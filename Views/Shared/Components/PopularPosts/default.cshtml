@@ -1,0 +1,33 @@
+@model List<Post>
+
+<!-- Upper Row: Popular Posts -->
+<div class="popular-posts">
+	<h2>Popular Posts</h2>
+
+	@foreach (var post in Model)
+	{
+		<div class="post">
+			<div class="position-relative">
+				<a href="/post/detail/@post.Url">
+					<img src="~/img/@post.Image" alt="" class="post-thumbnail">
+					<div class="comment-count">@post.Comments.Count Comment</div>
+					<h3 class="post-title">@post.Title</h3>
+				</a>
+			</div>
+		</div>
+	}
+
+
+	<!-- Sample Post 1
+	<div class="post">
+		<div class="position-relative">
+			<a href="/">
+				<img src="https://via.placeholder.com/400x300" alt="Popular Post Image 1" class="post-thumbnail">
+				<div class="comment-count">15 Comments</div>
+				<h3 class="post-title">Sample Popular Post 1</h3>
+			</a>
+		</div>
+	</div>-->
+
+
+</div>

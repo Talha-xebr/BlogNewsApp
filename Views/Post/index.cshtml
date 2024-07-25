@@ -1,0 +1,64 @@
+@model List<Post>
+
+<div class="row">
+    <!-- Left Column: Latest Blogs/News -->
+    <div class="col-lg-8">
+        <div class="latest-posts">
+            <h2>Latest Blogs/News</h2>
+            @foreach(var post in Model) {
+                <div class="post">
+                <a href="/post/detail/@post.Url"><img src="~/img/@post.Image" alt="Post Image 2"
+                        class="post-thumbnail"></a>
+                <div class="post-content">
+                   <!--Old Tag in Index
+                    <div class="post-tag"><a href="/"
+                            class="link-warning text-decoration-none bg-transparent hover:bg-light"></a>
+                    </div>
+                    -->
+                    <a href="/post/detail/@post.Url" class="link-info text-decoration-none bg-transparent hover:bg-light">
+                        <h3 class="post-title">@post.Title</h3>
+                    </a>
+                    <div class="post-date">@post.PostDate.ToShortDateString()</div>
+                    <p class="post-description">@post.Description</p>
+                </div>
+            </div>
+            }
+            
+            <!-- Sample Post 1
+            <div class="post">
+                <a href="/"><img src="https://via.placeholder.com/200x150" alt="Post Image 1"
+                        class="post-thumbnail"></a>
+                <div class="post-content">
+                    <div class="post-tag"><a href="/"
+                            class="link-warning text-decoration-none bg-transparent hover:bg-light">Tag: Technology</a>
+                    </div>
+                    <a href="/" class="link-info text-decoration-none bg-transparent hover:bg-light">
+                        using BlogNewsApp.Models;
+                        <h3 class="post-title">Sample Blog Post 1</h3>
+                    </a>
+                    <div class="post-date">Published on: July 23, 2024</div>
+                    <p class="post-description">This is a brief description of the first sample blog post. It provides
+                        an overview of the content and captures the reader's interest.</p>
+                </div>
+            </div>-->
+
+        </div>
+        <!-- Pagination -->
+        <nav class="py-3">
+            <ul class="pagination justify-content-center mb-0">
+                <li class="page-item"><a href="#" class="page-link">1</a></li>
+                <li class="page-item"><a href="#" class="page-link">2</a></li>
+                <li class="page-item"><a href="#" class="page-link">3</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Right Column -->
+    <div class="col-lg-4">
+        <!-- Upper Row: Popular Posts -->
+        <vc:popular-posts></vc:popular-posts>
+
+        <!-- Lower Row: Twitter Embed -->
+        <vc:twitter-embed></vc:twitter-embed>
+    </div>
+</div>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog/News Website</title>
+    <!-- Bootstrap CSS -->
+    <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="/post">Best News</a>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/post">Tüm Haberler</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/post/tag/teknoloji">Teknoloji</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/post/tag/bilim">Bilim</a>
+                    </li>
+                    
+                    <!-- Disabled LI, for future usage might need it
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    </li>
+                    -->
+
+                </ul>
+            </div>
+            <ul class="navbar-nav ms-auto text-white">
+                @if(User.Identity!.IsAuthenticated) {
+                    <li class="nav-item text-white">
+                        <a class="nav-link text-white" style="text-decoration: none;"  href="#" >@User.Identity.Name</a>
+                    </li>
+                    <li class="nav-item text-white">
+                        <a class="nav-link text-white" style="text-decoration: none;" asp-controller="User" asp-action="Logout">Logout</a>
+                    </li>
+                } else {
+                    <li class="nav-item">
+                        <a class="text-white" style="text-decoration: none;"  asp-controller="User" asp-action="Login">Login</a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="content-wrapper">
+        <div class="container content">
+            @RenderBody()
+        </div>
+    </div>
+
+    <!-- Footer 
+    <footer class="footer fixed-bottom">
+        <div class="container text-center">
+            <span>©2024 by Mehmet Talha kayisoglu</span>
+        </div>
+    </footer>-->
+
+    <!-- Bootstrap JS and dependencies -->
+    @RenderSection("Scripts", required: false)
+    <script src="/lib/bootstrap/js/jquery-3.5.1.slim.min.js"></script>
+    <script src="/lib/bootstrap/js/popper.min.js"></script>
+    <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>
